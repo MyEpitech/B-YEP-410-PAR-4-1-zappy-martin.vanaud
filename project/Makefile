@@ -35,6 +35,9 @@ fclean:	clean
 	make fclean -C library/
 	make fclean -C server/
 
+tests_run:
+	make tests_run -C server/
+
 re:	fclean all
 
 .PHONY:	all libraries zappy_server zappy_gui zappy_ai tests_run
