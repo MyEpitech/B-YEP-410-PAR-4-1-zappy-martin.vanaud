@@ -20,6 +20,9 @@ zappy_gui:
 zappy_server:
 	make -C server/
 
+tests_run:
+	make -C tests/
+
 clean:
 	make clean -C ai/
 	make clean -C gui/
@@ -34,4 +37,4 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY:	all libraries zappy_server zappy_gui zappy_ai
+.PHONY:	all libraries zappy_server zappy_gui zappy_ai tests_run
