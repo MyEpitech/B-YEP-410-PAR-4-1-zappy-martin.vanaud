@@ -17,12 +17,19 @@ void sigint_handler(__attribute__((unused)) int sig)
     exit(0);
 }
 
+void sigpipe_handler(__attribute__((unused)) int sig)
+{
+    printf("Server no longer up and running, exiting ...\n");
+    exit(0);
+}
+
 int main(int ac, char **av)
 {
     int options_status = 1;
     options_t *options = malloc(sizeof(options_t));
 
     signal(SIGINT, sigint_handler);
+    signal(SIGPIPE, sigpipe_handler);
 
     setup_options(options);
 
