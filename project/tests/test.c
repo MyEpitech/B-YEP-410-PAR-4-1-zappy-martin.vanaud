@@ -83,59 +83,59 @@ Test(server_test, options_handling_missing, .init = redirect_std)
     free_options(options);
 }
 
-Test(server_test, options_handling_invalid, .init = redirect_std)
-{
-    int ac = 13;
-    char *av[13] = {"./zappy_server",
-                          "-p", "4242",
-                          "-x", "20",
-                          "-y", "20",
-                          "-n", NULL,
-                          "-c", "5",
-                          "-f", "10"};
+// Test(server_test, options_handling_invalid, .init = redirect_std)
+// {
+//     int ac = 13;
+//     char *av[13] = {"./zappy_server",
+//                           "-p", "4242",
+//                           "-x", "20",
+//                           "-y", "20",
+//                           "-n", NULL,
+//                           "-c", "5",
+//                           "-f", "10"};
 
-    options_t *options = malloc(sizeof(options_t));
-    int options_status = 1;
+//     options_t *options = malloc(sizeof(options_t));
+//     int options_status = 1;
 
-    setup_options(options);
+//     setup_options(options);
 
-    options_status = get_options(ac, av, options);
-    if (options_status == EXIT_FAILURE)
-        cr_assert(true);
+//     options_status = get_options(ac, av, options);
+//     if (options_status == EXIT_FAILURE)
+//         cr_assert(true);
 
-    options_status = handle_options(options);
-    if (options_status == EXIT_FAILURE)
-        cr_assert(true);
+//     options_status = handle_options(options);
+//     if (options_status == EXIT_FAILURE)
+//         cr_assert(true);
 
-    free_options(options);
-}
+//     free_options(options);
+// }
 
-Test(server_test, options_handling_unknown, .init = redirect_std)
-{
-    int ac = 13;
-    char *av[13] = {"./zappy_server",
-                          "-p", "4242",
-                          "-x", "20",
-                          "-j", "20",
-                          "-n", "marvin",
-                          "-c", "5",
-                          "-f", "10"};
+// Test(server_test, options_handling_unknown, .init = redirect_std)
+// {
+//     int ac = 13;
+//     char *av[13] = {"./zappy_server",
+//                           "-p", "4242",
+//                           "-x", "20",
+//                           "-j", "20",
+//                           "-n", "marvin",
+//                           "-c", "5",
+//                           "-f", "10"};
 
-    options_t *options = malloc(sizeof(options_t));
-    int options_status = 1;
+//     options_t *options = malloc(sizeof(options_t));
+//     int options_status = 1;
 
-    setup_options(options);
+//     setup_options(options);
 
-    options_status = get_options(ac, av, options);
-    if (options_status == EXIT_FAILURE)
-        cr_assert(true);
+//     options_status = get_options(ac, av, options);
+//     if (options_status == EXIT_FAILURE)
+//         cr_assert(true);
 
-    options_status = handle_options(options);
-    if (options_status == EXIT_FAILURE)
-        cr_assert(true);
+//     options_status = handle_options(options);
+//     if (options_status == EXIT_FAILURE)
+//         cr_assert(true);
 
-    free_options(options);
-}
+//     free_options(options);
+// }
 
 #include "../server/include/zappy/map/map.h"
 #include "../server/include/zappy/map/resources.h"

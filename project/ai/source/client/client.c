@@ -66,9 +66,7 @@ void free_client(client_t *client)
 
 void greeting_protocol(client_t *client, char *team_name)
 {
-    char *identification = NULL;
-    asprintf(&identification, "IA Client Connected on socket %d, at address %s\n", client->socket, inet_ntoa(client->server.sin_addr));
-    send_request(client->socket, identification);
+    send_request(client->socket, "IA Client Connected\n");
     printf("%s", get_response(client->socket));
 
     send_request(client->socket, strcat(team_name, "\n"));
