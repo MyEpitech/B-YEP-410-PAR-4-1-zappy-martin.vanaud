@@ -221,7 +221,7 @@ Test(server_test, resources_creation, .init = redirect_std)
 
     free_map(map);
 
-    free_ressources(resources);
+    free_resources(resources);
 }
 
 #include "../server/include/server/server.h"
