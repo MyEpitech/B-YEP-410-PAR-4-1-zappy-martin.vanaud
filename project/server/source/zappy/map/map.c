@@ -14,18 +14,15 @@ void create_map(map_t *map, int width, int height)
 
     map->size = width * height;
 
-    map->tiles = malloc(sizeof(tile_t) * map->height);
-    for (int map_height = 0; map_height < map->height; map_height += 1)
-        map->tiles[map_height] = malloc(sizeof(tile_t) * map->width);
+    map->tiles = malloc(sizeof(tile_t) * map->width);
+    for (int map_height = 0; map_height < map->width; map_height += 1)
+        map->tiles[map_height] = malloc(sizeof(tile_t) * map->height);
 }
 
 void fill_map(map_t *map, resources_t *resources_list)
 {
     int ceilling = ceil(map->ratio);
-
     int resource = 0;
-    // int resource_count = 0;
-
     int count = 0;
 
     for (int map_width = 0; map_width < map->width; map_width += 1)
@@ -37,7 +34,6 @@ void fill_map(map_t *map, resources_t *resources_list)
 
             map->tiles[map_width][map_height].resources = malloc(sizeof(resources_t) * ceilling);
 
-            // resource_count = (rand() % ceilling);
             for (int index = 0; index < ceilling; index += 1)
             {
                 resource = (rand() % NB_ITEMS);

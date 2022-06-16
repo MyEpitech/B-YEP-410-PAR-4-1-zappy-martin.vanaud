@@ -72,9 +72,9 @@ void greeting_protocol(client_t *client, char *team_name)
     send_request(client->socket, strcat(team_name, "\n"));
     char *response = get_response(client->socket);
     if (strcmp(response, "OK\n") == 0) {
-        printf("team accepted\n", response);
+        printf("team accepted %s\n", response);
     } else {
-        printf("team denied\n", response);
+        printf("team denied %s\n", response);
         exit(0);
     }
 

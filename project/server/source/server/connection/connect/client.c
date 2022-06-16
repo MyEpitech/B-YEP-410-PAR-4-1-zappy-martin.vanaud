@@ -5,6 +5,8 @@
 ** client
 */
 
+#define _GNU_SOURCE
+
 #include "minilib.h"
 #include "netlib.h"
 
@@ -49,8 +51,11 @@ void connect_client(server_t *server, options_t *options)
         }
 
         // REQUEST/RESPONSE BLOCK
+        char *map_dimensions = NULL;
+        asprintf(&map_dimensions, "\n%d %d\n", options->width, options->height);
+
         __attribute__((unused)) char *accepted = get_request(client_socket);
-        send_response(client_socket, strcat(my_itoa(client_socket), "\n10 10\n"));
+        send_response(client_socket, strcat(my_itoa(client_socket), map_dimensions));
     }
 
     // HANDLE REQUEST HERE
