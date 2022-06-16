@@ -13,11 +13,6 @@
 
 #include "server/server.h"
 
-#include "zappy/zappy.h"
-#include "zappy/map/map.h"
-
-#include "options/options.h"
-
 void sigint_handler(__attribute__((unused)) int sig)
 {
     printf("Server is shutting down...\n");
@@ -44,9 +39,13 @@ int main(int ac, char **av)
     if (options_status == EXIT_FAILURE)
         return (EXIT_FAILURE);
 
+    options_status = check_clients(zappy->options);
+    if (options_status == EXIT_FAILURE)
+        return (EXIT_FAILURE);
+
     zappy->server = malloc(sizeof(server_t));
 
-    create_server(zappy->server, zappy->options);
+    create_server(zappy);
 
     free_options(zappy->options);
 

@@ -19,6 +19,9 @@ zappy_gui:
 zappy_server:
 	make -C server/
 
+tests_run:
+	make -C tests/
+
 clean:
 	make clean -C client/ai/
 	make clean -C client/gui/
