@@ -10,22 +10,6 @@
 
 #include "server/server.h"
 
-void client_sent_request(server_t *server, int client_socket)
-{
-    char *request = get_request(client_socket);
-    send_response(client_socket, "OUCOUC\n");
-}
-
-static void handle_client(server_t *server)
-{
-    for (int index = 0; index < server->ss->max_client; index += 1) {
-
-        server->sd->socket_descriptor = server->ss->client[index];
-
-        client_sent_request(server, server->ss->client[index]);
-    }
-}
-
 void connect_client(server_t *server)
 {
     int client_socket;
@@ -41,14 +25,34 @@ void connect_client(server_t *server)
 
         add_client_to_server(server, client_socket);
 
-        printf("%s\n", get_request(client_socket));
-        send_response(client_socket, "WELCOME");
+        printf("%s", get_request(client_socket));
+        send_response(client_socket, "WELCOME\n");
 
-        printf("%s\n", get_request(client_socket));
-        send_response(client_socket, strcat(my_itoa(client_socket), "\n10 10"));
+        char *team_name = get_request(client_socket);
+        // TODO: HANDLE HERE TEAM NAME
+
+        // send_response(client_socket, strcat(my_itoa(client_socket), "\n10 10\n"));
     }
 
-    handle_client(server);
+    // handle_client(server);
+}
+
+void handle_client(server_t *server)
+{
+    for (int index = 0; index < server->ss->max_client; index += 1) {
+
+        server->sd->socket_descriptor = server->ss->client[index];
+
+        client_sent_request(server, server->ss->client[index]);
+    }
+}
+
+void client_sent_request(server_t *server, int client_socket)
+{
+    // HANDLE REQUEST HERE
+
+    printf("%s", get_request(client_socket));
+    send_response(client_socket, "OK\n");
 }
 
 void clear_socket_set(server_t *server)

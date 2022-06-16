@@ -71,6 +71,7 @@ void add_client_to_server(server_t *server, int client_socket);
 void handle_server(server_t *server);
 void client_deconnected(server_t *server, int client_socketn);
 
+void handle_client(server_t *server);
 void client_sent_request(server_t *server, int client_socket);
 
 // void send_response(server_t *server, int client_socket, char *message);

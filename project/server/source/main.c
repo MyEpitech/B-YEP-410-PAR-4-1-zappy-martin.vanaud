@@ -44,9 +44,9 @@ int main(int ac, char **av)
     if (options_status == EXIT_FAILURE)
         return (EXIT_FAILURE);
 
-    zappy->server = malloc(sizeof(server_t));
-
-    create_server(zappy->server, zappy->options);
+    options_status = check_clients(zappy->options);
+    if (options_status == EXIT_FAILURE)
+        return (EXIT_FAILURE);
 
     free_options(zappy->options);
 

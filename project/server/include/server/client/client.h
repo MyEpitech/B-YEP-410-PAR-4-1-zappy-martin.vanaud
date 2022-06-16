@@ -19,8 +19,8 @@ enum CLIENT_TYPE {
 typedef struct server_client_s {
     int sockfd;
     int client_nb;
+    char *team_name;
     enum CLIENT_TYPE type;
-    // struct sockaddr_in addr;
     list_t list;
 } client_t;
 
