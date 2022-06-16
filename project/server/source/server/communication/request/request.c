@@ -87,7 +87,7 @@ static const command_ai commands_ai[] = {
     },
 };
 
-void handle_request(server_t *server, char *command)
+void handle_request(__attribute__((unused)) server_t *server, char *command)
 {
     printf("[REQUEST] %s\n", command);
 

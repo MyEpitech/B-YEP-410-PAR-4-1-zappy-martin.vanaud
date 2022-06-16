@@ -109,6 +109,8 @@ int check_clients(options_t *options)
         options->team_names[index] = team_name;
         team_name = strtok(NULL, " ");
     }
+
+    return (EXIT_SUCCESS);
 }
 
 void debug_options(options_t *options)
