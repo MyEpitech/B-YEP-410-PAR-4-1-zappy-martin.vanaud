@@ -16,6 +16,7 @@ void setup_options(options_t *options)
     options->width = -1;
     options->height = -1;
     options->names = NULL;
+    options->team_names = NULL;
     options->clients_nb = -1;
     options->freq = 100;
 }
@@ -88,6 +89,30 @@ int handle_options(options_t *options)
     return (EXIT_SUCCESS);
 }
 
+int check_clients(options_t *options)
+{
+    int count = 1;
+
+    for (int index = 0; options->names[index]; index += 1) {
+        if (options->names[index] == ' ')
+            count += 1;
+    }
+
+    if (count != options->clients_nb)
+        return (EXIT_FAILURE);
+
+    options->team_names = malloc(sizeof(char *) * options->clients_nb);
+
+    char *team_name = strtok(options->names, " ");
+
+    for (int index = 0; team_name != NULL; index += 1) {
+        options->team_names[index] = team_name;
+        team_name = strtok(NULL, " ");
+    }
+
+    return (EXIT_SUCCESS);
+}
+
 void debug_options(options_t *options)
 {
     printf("[DEBUG] options->port: %d\n", options->port);
@@ -95,10 +120,16 @@ void debug_options(options_t *options)
     printf("[DEBUG] options->height: %d\n", options->height);
     printf("[DEBUG] options->names: %s\n", options->names);
     printf("[DEBUG] options->clients_nb: %d\n", options->clients_nb);
+    for (int index = 0; index < options->clients_nb; index += 1) {
+        printf("[DEBUG] options->team_names[%d]: %s\n", index,
+               options->team_names[index]);
+    }
     printf("[DEBUG] options->freq: %d\n", options->freq);
 }
 
 void free_options(options_t *options)
 {
+    // for (int index = 0; index < options->clients_nb; index += 1)
+    //     free(options->team_names[index]);
     free(options);
 }

@@ -39,8 +39,15 @@ void connect_client(client_t *client, char *team_name)
         perror("connect");
         exit(0);
     } else {
-        handle_client(client);
+
+        greeting_protocol(client, team_name);
+
         while (1) {
+
+            // TODO: GAME PROTOCOL HERE
+
+            send_request(client->socket, "AI\n");
+            printf("%s", get_response(client->socket));
             continue;
         }
     }
@@ -57,14 +64,20 @@ void free_client(client_t *client)
     free(client);
 }
 
-int handle_client(client_t *client)
+void greeting_protocol(client_t *client, char *team_name)
 {
-    char *identification = NULL;
-    asprintf(&identification, "IA Client Connected on socket %d, at address %s\n", client->socket, inet_ntoa(client->server.sin_addr));
+    send_request(client->socket, "IA Client Connected\n");
+    printf("%s", get_response(client->socket));
 
-    send_request(client->socket, identification);
-    printf("%s\n", get_response(client->socket));
+    send_request(client->socket, strcat(team_name, "\n"));
+    char *response = get_response(client->socket);
+    if (strcmp(response, "OK\n") == 0) {
+        printf("team accepted\n", response);
+    } else {
+        printf("team denied\n", response);
+        exit(0);
+    }
 
-    send_request(client->socket, "martin");
-    printf("%s\n", get_response(client->socket));
+    send_request(client->socket, "info\n");
+    printf("%s", get_response(client->socket));
 }

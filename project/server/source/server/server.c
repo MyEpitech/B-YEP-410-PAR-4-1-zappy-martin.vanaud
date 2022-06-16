@@ -10,25 +10,25 @@
 #include "server/server.h"
 #include "server/communication/request/request.h"
 
-void create_server(server_t *server, options_t *options)
+void create_server(zappy_t *zappy)
 {
-    setup_server(server, options);
-    initialise_all_clients_sockets(server);
-    create_server_socket(server);
-    allow_multiple_connections(server);
+    setup_server(zappy->server, zappy->options);
+    initialise_all_clients_sockets(zappy->server);
+    create_server_socket(zappy->server);
+    allow_multiple_connections(zappy->server);
 
-    configure_socket_type(server);
-    bind_socket_to_server(server);
+    configure_socket_type(zappy->server);
+    bind_socket_to_server(zappy->server);
 
     while (1) {
-        clear_socket_set(server);
+        clear_socket_set(zappy->server);
 
-        add_server_socket_to_set(server);
-        add_client_socket_to_set(server);
+        add_server_socket_to_set(zappy->server);
+        add_client_socket_to_set(zappy->server);
 
-        wait_for_connections(server);
+        wait_for_connections(zappy->server);
 
-        connect_client(server);
+        connect_client(zappy->server, zappy->options);
     }
 }
 

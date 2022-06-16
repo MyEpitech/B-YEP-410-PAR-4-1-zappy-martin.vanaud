@@ -23,7 +23,7 @@ void debug_resources(resources_t *resource)
     }
 }
 
-void free_ressources(resources_t *resources)
+void free_resources(resources_t *resources)
 {
     free(resources);
 }

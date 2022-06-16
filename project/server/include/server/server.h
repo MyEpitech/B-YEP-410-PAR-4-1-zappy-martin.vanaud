@@ -47,7 +47,14 @@ typedef struct server_s {
     server_socket_descriptor_t *sd;
 } server_t;
 
-void create_server(server_t *server, options_t *options);
+typedef struct zappy_s {
+    options_t *options;
+    server_t *server;
+    map_t *map;
+    resources_t *ressources;
+} zappy_t;
+
+void create_server(zappy_t *zappy);
 
 // SETUP SERVER
 void setup_server(server_t *server, options_t *options);
@@ -60,7 +67,7 @@ void configure_socket_type(server_t *server);
 void bind_socket_to_server(server_t *server);
 
 // CONNECT CLIENT
-void connect_client(server_t *server);
+void connect_client(server_t *server, options_t *options);
 void clear_socket_set(server_t *server);
 void add_server_socket_to_set(server_t *server);
 void add_client_socket_to_set(server_t *server);
@@ -71,10 +78,8 @@ void add_client_to_server(server_t *server, int client_socket);
 void handle_server(server_t *server);
 void client_deconnected(server_t *server, int client_socketn);
 
+void handle_client(server_t *server);
 void client_sent_request(server_t *server, int client_socket);
-
-// void send_response(server_t *server, int client_socket, char *message);
-// void get_request(int client_socket)
 
 void debug_server(server_t *server);
 void free_server(server_t *server);

@@ -22,11 +22,6 @@
 
     #include "options/options.h"
 
-// typedef struct informations_s {
-//     int port;
-//     char *address;
-// } informations_t;
-
 typedef struct client_s {
     int socket;
     struct sockaddr_in server;
@@ -36,6 +31,7 @@ void setup_client(client_t *client, options_t *options);
 void connect_client(client_t *client, char *team_name);
 
 int handle_client(client_t *client);
+void greeting_protocol(client_t *client, char *team_name);
 
 void debug_client(client_t *client);
 void free_client(client_t *client);

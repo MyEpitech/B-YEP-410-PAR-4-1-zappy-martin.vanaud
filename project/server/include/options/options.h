@@ -12,6 +12,7 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <getopt.h>
+    #include <string.h>
 
 enum OPTIONS_ERROR {
     MISSING_OPTION = -1,
@@ -34,13 +35,17 @@ typedef struct options_s {
     int width;
     int height;
     char *names;
+    char **team_names;
     int clients_nb;
     int freq;
 } options_t;
 
 void setup_options(options_t *options);
+
 int get_options(int ac, char **av, options_t *options);
 int handle_options(options_t *options);
+int check_clients(options_t *pptions);
+
 void debug_options(options_t *options);
 void free_options(options_t *options);
 

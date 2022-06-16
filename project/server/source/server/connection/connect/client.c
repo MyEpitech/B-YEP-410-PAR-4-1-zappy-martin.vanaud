@@ -10,23 +10,7 @@
 
 #include "server/server.h"
 
-void client_sent_request(server_t *server, int client_socket)
-{
-    char *request = get_request(client_socket);
-    send_response(client_socket, "OUCOUC\n");
-}
-
-static void handle_client(server_t *server)
-{
-    for (int index = 0; index < server->ss->max_client; index += 1) {
-
-        server->sd->socket_descriptor = server->ss->client[index];
-
-        client_sent_request(server, server->ss->client[index]);
-    }
-}
-
-void connect_client(server_t *server)
+void connect_client(server_t *server, options_t *options)
 {
     int client_socket;
 
@@ -41,14 +25,52 @@ void connect_client(server_t *server)
 
         add_client_to_server(server, client_socket);
 
-        printf("%s\n", get_request(client_socket));
-        send_response(client_socket, "WELCOME");
+        // REQUEST/RESPONSE BLOCK
+        printf("%s", get_request(client_socket));
+        send_response(client_socket, "WELCOME\n");
 
-        printf("%s\n", get_request(client_socket));
-        send_response(client_socket, strcat(my_itoa(client_socket), "\n10 10"));
+        // REQUEST/RESPONSE BLOCK
+        char *team_name = get_request(client_socket);
+        bool status = false;
+        for (int index = 0; index < options->clients_nb; index += 1) {
+            if (strncmp(team_name, options->team_names[index], strlen(team_name - 1)) == 0) {
+                status = true;
+                break;
+            }
+        }
+        // TODO: store team_name and create a client
+        printf("%s", team_name);
+        if (!status) {
+            send_response(client_socket, "KO\n");
+            close(server->ss->client[client_socket]);
+            server->ss->client[client_socket] = -1;
+        } else {
+            send_response(client_socket, "OK\n");
+        }
+
+        // REQUEST/RESPONSE BLOCK
+        __attribute__((unused)) char *accepted = get_request(client_socket);
+        send_response(client_socket, strcat(my_itoa(client_socket), "\n10 10\n"));
     }
 
-    handle_client(server);
+    // HANDLE REQUEST HERE
+    // handle_client(server);
+}
+
+void handle_client(server_t *server)
+{
+    for (int index = 0; index < server->ss->max_client; index += 1) {
+
+        server->sd->socket_descriptor = server->ss->client[index];
+
+        client_sent_request(server, server->ss->client[index]);
+    }
+}
+
+void client_sent_request(__attribute__((unused)) server_t *server, int client_socket)
+{
+    printf("%s", get_request(client_socket));
+    send_response(client_socket, "OK\n");
 }
 
 void clear_socket_set(server_t *server)
@@ -81,6 +103,7 @@ void wait_for_connections(server_t *server)
     if ((select(server->sd->max_socket_descriptor + 1, &server->sd->readfd, NULL, NULL, NULL) < 0))
     {
         perror("select");
+        exit(EXIT_FAILURE);
     }
 }
 
